@@ -3,7 +3,7 @@ from selenium.webdriver.chrome.options import Options
 from faker import Faker
 from time import sleep
 
-options = Options
+options = Options()
 options.headless = True
 options.add_argument('log-level=3')
 driver = webdriver.Chrome('chromedriver.exe', options=options)
@@ -55,5 +55,6 @@ def main():
             submit()
         except:
             reload()
+
 
 main()
