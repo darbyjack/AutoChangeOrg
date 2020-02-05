@@ -23,6 +23,7 @@ amount = int(input())
 sign_delay = config.getfloat('project', 'sign_delay')
 reload_delay = config.getfloat('project', 'reload_delay')
 public = config.getboolean('project', 'public')
+log = config.getboolean('project', 'log')
 
 
 def element(input):
@@ -55,6 +56,9 @@ def submit():
 
     if not public:
         public_box.click()
+
+    if log:
+        print("Signed: {} {} | {}".format(first, last, email))
 
     sleep(sign_delay)
     sign_button.click()
