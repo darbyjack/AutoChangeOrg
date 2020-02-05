@@ -17,8 +17,7 @@ fake = Faker()
 
 petition = input("Input Petition URL: ")
 
-print("Input # of times to run: ")
-amount = int(input())
+amount = int(input("Input # of times to run: "))
 
 sign_delay = config.getfloat('project', 'sign_delay')
 reload_delay = config.getfloat('project', 'reload_delay')
