@@ -3,17 +3,26 @@ from selenium.webdriver.chrome.options import Options
 from faker import Faker
 from time import sleep
 
+from configparser import ConfigParser
+
+config = ConfigParser()
+
+config.read('config.ini')
+
 options = Options()
-options.headless = True
+options.headless = config.getboolean('project', 'headless')
 options.add_argument('log-level=3')
 driver = webdriver.Chrome('chromedriver.exe', options=options)
 fake = Faker()
 
-print("Input Petition URL: ")
-petition = input()
+petition = input("Input Petition URL: ")
 
 print("Input # of times to run: ")
 amount = int(input())
+
+sign_delay = config.getfloat('project', 'sign_delay')
+reload_delay = config.getfloat('project', 'reload_delay')
+public = config.getboolean('project', 'public')
 
 
 def element(input):
@@ -35,6 +44,8 @@ def submit():
     last_name_box = element("lastName")
     email_box = element("email")
 
+    public_box = element("public")
+
     sign_button = driver.find_element_by_xpath(
         """//*[@id="page"]/div[1]/div[3]/div[2]/div/div/div/div[2]/div[2]/form/button[2]""")
 
@@ -42,9 +53,12 @@ def submit():
     last_name_box.send_keys(last)
     email_box.send_keys(email)
 
-    sleep(0.6)
+    if not public:
+        public_box.click()
+
+    sleep(sign_delay)
     sign_button.click()
-    sleep(0.6)
+    sleep(reload_delay)
     reload()
 
 
